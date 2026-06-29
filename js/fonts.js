@@ -13,7 +13,7 @@ function isCSSCode(str) {
 }
 
 // 폰트 CSS를 <head>에 주입 (어느 페이지에서나 호출 가능)
-export function injectFontCSS({ label, cssName, url, fontFaceCSS, type }) {
+export function injectFontCSS({ label, cssName, url, fontFaceCSS, fontFamily, type }) {
   // type이 잘못 저장됐더라도 url 필드에 CSS 코드가 들어온 경우 방어 처리
   const cssContent = fontFaceCSS || (isCSSCode(url) ? url : null);
   const isWebfont = type === "webfont" || !!cssContent;
@@ -36,9 +36,12 @@ export function injectFontCSS({ label, cssName, url, fontFaceCSS, type }) {
   }
 
   if (!document.querySelector(`style[data-font-style="${cssName}"]`)) {
+    // webfont는 @font-face에서 추출한 fontFamily를 사용해야 브라우저가 폰트를 찾을 수 있음
+    // 없으면 label로 폴백 (Google Fonts, 기존 저장 데이터 호환)
+    const familyName = fontFamily || label;
     const style = document.createElement("style");
     style.dataset.fontStyle = cssName;
-    style.textContent = `.ql-font-${cssName} { font-family: '${label}', sans-serif !important; }`;
+    style.textContent = `.ql-font-${cssName} { font-family: '${familyName}', sans-serif !important; }`;
     document.head.appendChild(style);
   }
 }

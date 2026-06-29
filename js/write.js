@@ -340,7 +340,7 @@ function applyCustomFont(fontData) {
     item.className = "ql-picker-item";
     item.setAttribute("tabindex", "0");
     item.dataset.value = cssName;
-    item.textContent = label;
+    item.dataset.label = label;
 
     // mousedown에서 preventDefault → 에디터 selection 유지
     item.addEventListener("mousedown", (e) => e.preventDefault());
@@ -371,9 +371,16 @@ loadFonts(applyCustomFont);
 function makeCssName(label) {
   const slug = label.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
   if (slug) return slug;
-  // 영문이 전혀 없는 경우 (순수 한글 등) → font-{timestamp}
   return "font-" + Date.now();
 }
+
+// @font-face CSS에서 font-family 값 추출
+function extractFontFamily(css) {
+  const match = css.match(/font-family\s*:\s*['"]?([^'";,\n]+?)['"]?\s*;/i);
+  return match ? match[1].trim() : null;
+}
+
+  
 
 // ── 탭 전환 ──
 let currentFontTab = "google";
@@ -434,7 +441,8 @@ fontModalConfirm.addEventListener("click", async () => {
         return showToast("올바른 @font-face 또는 @import 코드를 입력해주세요.", true);
       }
       const cssName = makeCssName(label);
-      const fontData = { type: "webfont", label, cssName, fontFaceCSS };
+      const fontFamily = extractFontFamily(fontFaceCSS) || label;
+      const fontData = { type: "webfont", label, cssName, fontFamily, fontFaceCSS };
       applyCustomFont(fontData);
       await saveFont(fontData);
       fontModal.classList.remove("active");
