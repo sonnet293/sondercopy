@@ -3,40 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="backup.css">
+    <link rel="stylesheet" href="css/backup.css">
     <title>백업</title>
 </head>
 <body>
-    
-    <!--깃발 / 로고-->
-    <div class="top-area">
-        <a href="index.html" class="main-flag">
-            <img src="img/Flag.png" alt="메인 깃발" />
-        </a>
-        <div class="site-logo">
-            <img src="img/Archive Logo.png" alt="백업 로고" />
-        </div>
-    </div>
 
     <header class="site-header">
-        <div id="marquee-board" data-page-id="backup">백업 전광판</div>
-        <nav>
-            <div class="nav-btn">
-                <a href="guestbook.html">방명록</a>
-            </div>
-            <div class="nav-btn">
-                <a href="character.html">캐릭터</a>
-            </div>
-            <div class="nav-btn">
-                <a href="backup.html">백업</a>
-            </div>
-        </nav>
+        <h1>ARCHIVES</h1>
+        <div class="nav-btn">
+            <a href="guestbook.html">방명록</a>
+            <a href="character.html">캐릭터</a>
+            <a href="backup.html">백업</a>
+        </div>
     </header>
 
-    <!--메인 영역-->
     <main class="main-wrap">
 
-        <!--로딩 스켈레톤-->
+        <!-- 로딩 스켈레톤 -->
         <div id="skeleton-list">
             <div class="skeleton-card">
                 <div class="skeleton-thumb"></div>
@@ -61,25 +44,68 @@
             </div>
         </div>
 
-        <!--게시글 목록-->
-        <div id="post-list" style="display: none;"></div>
+        <!-- 게시글 목록 -->
+        <div id="post-list" style="display:none;"></div>
 
-        <!--빈 상태-->
-        <div id="empty-state" style="display: none;">
+        <!-- 빈 상태 -->
+        <div id="empty-state" style="display:none;">
             <div class="empty-icon">
                 <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
                     <rect x="6" y="8" width="36" height="32" rx="5" stroke="currentColor" stroke-width="2"/>
                     <path d="M14 18h20M14 24h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                 </svg>
             </div>
-            <p>아직 작성한 글이 없습니다.</p>
+            <p>아직 작성된 글이 없습니다.</p>
         </div>
-    
+
     </main>
 
-    
+    <!-- ── 비밀글 비밀번호 모달 ── -->
+    <div id="secret-modal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div class="modal-title-wrap">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                        <rect x="4" y="8" width="10" height="8" rx="2" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M6 8V6a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    <h3>비밀글입니다</h3>
+                </div>
+                <button class="modal-close-btn" id="secret-modal-close">✕</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-desc">이 글을 읽으려면 비밀번호를 입력해주세요.</p>
+                <input type="password" id="secret-pw-input" placeholder="비밀번호 입력" class="modal-pw-input" maxlength="30" />
+                <p class="modal-pw-error" id="modal-pw-error"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" id="secret-modal-cancel">취소</button>
+                <button class="btn btn-primary" id="secret-modal-confirm">확인</button>
+            </div>
+        </div>
+    </div>
 
-    <div id="toast" class="toast"></div>
+    <!-- ── 글 상세 모달 ── -->
+    <div id="post-modal" class="modal-overlay">
+        <div class="post-modal-box">
+            <div class="post-modal-header">
+                <button class="post-modal-back" id="post-modal-close">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                        <path d="M11 4L6 9l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    목록으로
+                </button>
+                <div class="post-modal-meta" id="post-modal-meta"></div>
+            </div>
+            <div class="post-modal-content">
+                <h1 class="post-modal-title" id="post-modal-title"></h1>
+                <div class="post-modal-body ql-editor" id="post-modal-body"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 토스트 -->
+    <div class="toast" id="toast"></div>
 
     <script type="module" src="js/backup.js"></script>
 

@@ -80,11 +80,6 @@ const thumbnailPreview = document.getElementById("thumbnail-preview");
 const thumbnailPlaceholder = document.getElementById("thumbnail-placeholder");
 const thumbnailRemove = document.getElementById("thumbnail-remove");
 
-// 비밀글
-const secretToggle = document.getElementById("secret-toggle");
-const secretLabel = document.getElementById("secret-label");
-const secretPwWrap = document.getElementById("secret-pw-wrap");
-const secretPassword = document.getElementById("secret-password");
 
 onAuthStateChanged(auth, (user) => {
   currentUser = user;
@@ -118,12 +113,54 @@ thumbnailRemove.addEventListener("click", (e) => {
   thumbnailRemove.style.display = "none";
 });
 
-// 비밀글 토글
-secretToggle.addEventListener("change", () => {
-  const isSecret = secretToggle.checked;
-  secretLabel.textContent = isSecret ? "비밀글" : "공개";
-  secretPwWrap.style.display = isSecret ? "block" : "none";
-  if (!isSecret) secretPassword.value = "";
+// 게시하기
+document.getElementById("reset-btn").addEventListener("click", () => {
+  document.getElementById("post-title").value = "";
+  quill.setContents([]);
+  thumbnailBlob = null;
+  thumbnailInput.value = "";
+  thumbnailPreview.src = "";
+  thumbnailPreview.style.display = "none";
+  thumbnailPlaceholder.style.display = "flex";
+  thumbnailRemove.style.display = "none";
+  document.querySelector('input[name="visibility"][value="public"]').checked = true;
+});
+
+document.getElementById("submit-btn").addEventListener("click", async () => {
+  if (!currentUser) return showToast("로그인이 필요합니다.", true);
+  const title = document.getElementById("post-title").value.trim();
+  if (!title) return showToast("제목을 입력해주세요.", true);
+  if (quill.getText().trim().length === 0) return showToast("내용을 입력해주세요.", true);
+
+  const visibility = document.querySelector('input[name="visibility"]:checked')?.value ?? "public";
+  const submitBtn = document.getElementById("submit-btn");
+  submitBtn.disabled = true;
+  submitBtn.textContent = "저장 중...";
+
+  try {
+    let thumbnailUrl = null;
+    if (thumbnailBlob) {
+      thumbnailUrl = await uploadImage(thumbnailBlob, "thumbnail.jpg");
+    }
+
+    await addDoc(collection(db, "posts"), {
+      title,
+      content: JSON.stringify(quill.getContents()),
+      contentHtml: quill.root.innerHTML,
+      visibility,
+      thumbnailUrl,
+      createdAt: serverTimestamp(),
+      uid: currentUser.uid,
+    });
+
+    showToast("게시 완료!");
+    setTimeout(() => { location.href = "backup.html"; }, 900);
+  } catch (err) {
+    showToast("게시 실패: " + err.message, true);
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "게시하기";
+  }
 });
 
 // 크로퍼

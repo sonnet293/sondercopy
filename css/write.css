@@ -355,68 +355,48 @@ body {
 
 /* TODO: 썸네일 프리뷰부터 다시 작성 */
 
-.secret-row {
+/* 공개 범위 선택 */
+.visibility-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.visibility-option {
     display: flex;
     align-items: center;
-    gap: 10px;
-}
-
-.secret-label {
+    gap: 9px;
+    padding: 9px 12px;
+    border-radius: var(--radius);
+    border: 1.5px solid #e0e0e0;
+    cursor: pointer;
+    transition: border-color var(--transition), background var(--transition);
     font-size: 0.88rem;
     color: var(--text-light);
-    min-width: 36px;
+    user-select: none;
 }
 
-.toggle-switch {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
+.visibility-option:hover {
+    border-color: #bbb;
+    background: #f7f7f7;
 }
 
-.toggle-switch input {
+.visibility-option input[type="radio"] {
     display: none;
 }
 
-.toggle-track {
-    display: block;
-    width: 40px;
-    height: 22px;
-    background: #e0e0e0;
-    border-radius: 11px;
-    transition: background 0.22s ease;
-    position: relative;
+.visibility-option:has(input:checked) {
+    border-color: #555;
+    background: #f3f3f3;
+    color: #222;
+    font-weight: 500;
 }
 
-.toggle-switch input:checked + .toggle-track {
-    background: var(--text-muted);
-}
-
-.toggle-thumb {
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 16px;
-    height: 16px;
-    background-color: var(--white);
-    border-radius: 50%;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    transition: transform 0.22s ease;
-}
-
-.toggle-switch input:checked + .toggle-track .toggle-thumb {
-    transform: translateX(18px);
-}
-
-.secret-pw-wrap {
-    margin-top: 12px;
-}
-
-.secret-pw-input {
-    width: 100%;
-    max-width: 320px;
-    padding: 9px 13px;
-    border-radius: var(--radius);
-    font-family: var(--font-sans);
+.visibility-icon {
+    display: flex;
+    align-items: center;
+    opacity: 0.6;
+    flex-shrink: 0;
 }
 
 /* 크롭 모달 */
