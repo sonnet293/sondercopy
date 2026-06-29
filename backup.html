@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="backup.css">
+    <title>백업</title>
+</head>
+<body>
+    
+    <!--깃발 / 로고-->
+    <div class="top-area">
+        <a href="index.html" class="main-flag">
+            <img src="img/Flag.png" alt="메인 깃발" />
+        </a>
+        <div class="site-logo">
+            <img src="img/Archive Logo.png" alt="백업 로고" />
+        </div>
+    </div>
+
+    <header class="site-header">
+        <div id="marquee-board" data-page-id="backup">백업 전광판</div>
+        <nav>
+            <div class="nav-btn">
+                <a href="guestbook.html">방명록</a>
+            </div>
+            <div class="nav-btn">
+                <a href="character.html">캐릭터</a>
+            </div>
+            <div class="nav-btn">
+                <a href="backup.html">백업</a>
+            </div>
+        </nav>
+    </header>
+
+    <!--메인 영역-->
+    <main class="main-wrap">
+
+        <!--로딩 스켈레톤-->
+        <div id="skeleton-list">
+            <div class="skeleton-card">
+                <div class="skeleton-thumb"></div>
+                <div class="skeleton-body">
+                    <div class="skeleton-line skeleton-title"></div>
+                    <div class="skeleton-line skeleton-date"></div>
+                </div>
+            </div>
+            <div class="skeleton-card">
+                <div class="skeleton-thumb"></div>
+                <div class="skeleton-body">
+                    <div class="skeleton-line skeleton-title"></div>
+                    <div class="skeleton-line skeleton-date"></div>
+                </div>
+            </div>
+            <div class="skeleton-card">
+                <div class="skeleton-thumb"></div>
+                <div class="skeleton-body">
+                    <div class="skeleton-line skeleton-title"></div>
+                    <div class="skeleton-line skeleton-date"></div>
+                </div>
+            </div>
+        </div>
+
+        <!--게시글 목록-->
+        <div id="post-list" style="display: none;"></div>
+
+        <!--빈 상태-->
+        <div id="empty-state" style="display: none;">
+            <div class="empty-icon">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                    <rect x="6" y="8" width="36" height="32" rx="5" stroke="currentColor" stroke-width="2"/>
+                    <path d="M14 18h20M14 24h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <p>아직 작성한 글이 없습니다.</p>
+        </div>
+    
+    </main>
+
+    
+
+    <div id="toast" class="toast"></div>
+
+    <script type="module" src="js/backup.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,142 @@
+@font-face {
+    font-family: 'Yangjin';
+    src: url('https://cdn.jsdelivr.net/gh/supernovice-lab/font@0.9/yangjin.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
+
+:root {
+  --bg:           #121212;
+  --surface:      #1e1e1e;
+  --border:       #333333;
+  --white:        #fff;
+  --text-wg:      #e0e0e0;
+  --text:         #f5f5f5;
+  --text-muted:   #b0b0b0;
+  --text-light:   #7a7a7a;
+  --danger:       #b91c1c;
+  --danger-dark:  #921515;
+  --danger-glow:  rgba(185, 28, 28, 0.15);
+
+  --bubble-guest: rgba(156,163,175,0.8);
+  --bubble-owner: rgba(156,163,175,0.8);
+
+  --radius:       8px;
+  --radius-lg:    14px;
+  --radius-xl:    20px;
+  --font-serif: 'DM Serif Display', Georgia, serif;
+  --font-sans: 'DM Sans', 'Pretendard', -apple-system, sans-serif;
+  --font-custom: 'Yangjin', 'Pretendard', -apple-system, sans-serif;
+  --transition:   0.18s ease;
+
+  --input-h:      160px;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    font-size: 16px;
+    height: 100%;
+}
+
+body {
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+    background-image:
+        url("../img/B_Deco.png"),
+        url("../img/Deco Banner.png"),
+        url("../img/Background.png");
+
+    background-size:
+        cover,
+        cover,
+        cover;
+    
+    background-position:
+        center 10%, 
+        center 10%,
+        center;
+
+    background-repeat:
+        no-repeat, 
+        no-repeat,
+        no-repeat;
+}
+
+.top-area {
+    position: relative;
+    height: 120px;
+}
+
+.main-flag {
+    position: absolute;
+    margin-left: 150px;
+}
+
+.main-flag img {
+    height: 210px;
+}
+
+.site-logo {
+    width: min(290px, 88vw);
+    margin: 0 auto 18px;
+    margin-top: clamp(50px, 5vh, 160px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.site-logo img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.site-header {
+    width: 100%;
+    max-width: 420px;
+    margin: 10px auto;
+    padding: 0 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+#marquee-board {
+    width: 100%;
+    background: var(--white);
+    padding: 2px;
+    text-align: center;
+    font-family: var(--font-custom);
+}
+
+nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-btn {
+    background: var(--white);
+    border: 1px solid var(--white);
+    border-radius: var(--radius);
+}
+
+.nav-btn a {
+    text-decoration: none;
+    font-family: var(--font-custom);
+    color: var(--bg);
+    display: block;
+    padding: 2px 25px;
+}

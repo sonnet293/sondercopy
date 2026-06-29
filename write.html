@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" />
+    <link rel="stylesheet" href="css/write.css">
+    <title>글쓰기</title>
+</head>
+<body>
+
+    <!--글쓰기 섹션-->
+    <section id="editor-section" style="display: none;"> <!--display: none;-->
+        
+        <!--제목-->
+        <input type="text" id="post-title" placeholder="제목" />
+
+        <!--에디터 섹션-->
+        <div class="editor-wrapper">
+            <div id="toolbar">
+                <span class="ql-formats">
+                    <select id="font-select" class="ql-font">
+                        <option selected>기본</option>
+                        <option value="pretendard">프리텐다드</option>
+                        <option value="serif">세리프</option>
+                        <option value="monospace">모노</option>
+                    </select>
+                    <button class="toolbar-custom-btn" id="add-font-btn" title="폰트 추가">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                          <path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                </span>
+                <span class="ql-formats">
+                    <select class="ql-size">
+                        <option value="12px">12</option>
+                        <option value="14px">14</option>
+                        <option value="16px" selected>16</option>
+                        <option value="18px">18</option>
+                        <option value="20px">20</option>
+                        <option value="24px">24</option>
+                        <option value="28px">28</option>
+                        <option value="32px">32</option>
+                        <option value="36px">36</option>
+                        <option value="48px">48</option>
+                    </select>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-bold"></button>
+                    <button class="ql-italic"></button>
+                    <button class="ql-underline"></button>
+                    <button class="ql-strike"></button>
+                </span>
+                <span class="ql-formats">
+                    <button class="toolbar-custom-btn color-btn" id="text-color-btn" title="글자 색">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                          <text x="2" y="12" font-size="11" font-weight="700" font-family="serif" fill="currentColor">A</text>
+                          <rect x="1" y="13" width="14" height="2.5" rx="1" id="text-color-indicator" fill="#000000"/>
+                        </svg>
+                    </button>
+                    <button class="toolbar-custom-btn color-btn" id="bg-color-btn" title="배경 색">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                          <rect x="2" y="2" width="12" height="9" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="none"/>
+                          <rect x="1" y="13" width="14" height="2.5" rx="1" id="bg-color-indicator" fill="#ffff00"/>
+                        </svg>
+                    </button>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-align" value=""></button>
+                    <button class="ql-align" value="center"></button>
+                    <button class="ql-align" value="right"></button>
+                    <button class="ql-align" value="justify"></button>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-list" value="ordered"></button>
+                    <button class="ql-list" value="bullet"></button>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-link"></button>
+                    <button class="ql-image"></button>
+                    <button class="ql-blockquote"></button>
+                    <button class="ql-code-block"></button>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-clean"></button>
+                </span>
+            </div>
+            <div id="editor"></div>
+        </div>
+
+        <!--썸네일 + 비밀글-->
+        <div class="post-options">
+            <!--썸네일-->
+            <div class="option-block">
+                <div class="option-label">
+                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1" y="2" width="13" height="11" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M1 9l3.5-3.5L7 8l2.5-2.5L14 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    썸네일
+                </div>
+                <div id="thumbnail-area" class="thumbnail-upload-area">
+                    <input type="file" id="thumbnail-input" accept="image/*" style="display: none;" />
+                    <div id="thumbnail-placeholder" class="thumbnail-placeholder">
+                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="3" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M2 13l5-4 4 4 3-3 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <span>썸네일 이미지 선택</span>
+                    </div>
+                    <img src="" alt="썸네일 미리보기" id="thumbnail-preview" style="display: none;" />
+                    <button id="thumbnail-remove" class="thumbnail-remove" style="display: none;" title="제거">✕</button>
+                </div>
+            </div>
+
+            <!--비밀글-->
+            <div class="option-block">
+                <div class="option-label">
+                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="4" y="6" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M5 6V4.5a2.5 2.5 0 015 0V6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+                    비밀글
+                </div>
+                <div class="secret-row">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="secret-toggle" />
+                        <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                    </label>
+                    <span id="secret-label" class="secret-label">공개</span>
+                </div>
+                <div id="secret-pw-wrap" class="secret-pw-wrap" style="display: none;">
+                    <input type="password" id="secret-password" class="secret-pw-input" placeholder="비밀번호 설정" maxlength="30" />
+                </div>
+            </div>
+        </div>
+
+        <!--하단 버튼-->
+        <div class="editor-actions">
+            <button id="reset-btn" class="btn btn-ghost">초기화</button>
+            <button id="submit-btn" class="btn btn-primary btn-lg">게시하기</button>
+        </div>
+
+    </section>
+
+    <!--크롭 모달-->
+    <div id="crop-modal">
+        <div class="crop-box">
+            <div class="crop-box-header">
+                <h3>이미지 크롭</h3>
+                <button id="crop-cancel" class="btn btn-ghost" style="padding: 6px 12px;">✕</button>
+            </div>
+            <div class="crop-image-wrap">
+                <img src="" alt="crop-target" id="crop-image" />
+            </div>
+            <div class="crop-box-footer">
+                <button id="crop-cancel-2" class="btn btn-ghost">취소</button> <!--굳이 필요 없을지도-->
+                <button id="crop-confirm" class="btn btn-primary">적용</button>
+            </div>
+        </div>
+    </div>
+    
+    <!--색상 패널-->
+    <div id="color-panel" class="color-panel">
+        <div class="color-panel-header">
+            <span id="color-panel-title">글자 색</span>
+            <button id="color-panel-close" class="color-panel-close">✕</button>
+        </div>
+        <div id="color-presets" class="color-presets"></div>
+        <div class="color-divider"></div>
+        <div class="rgb-sliders">
+            <div class="slider-row">
+                <label>R</label>
+                <input type="range" id="slider-r" min="0" max="255" value="0" />
+                <input type="number" id="num-r" min="0" max="255" value="0" class="num-input" />
+            </div>
+            <div class="slider-row">
+                <label>G</label>
+                <input type="range" id="slider-g" min="0" max="255" value="0" />
+                <input type="number" id="num-g" min="0" max="255" value="0" class="num-input" />
+            </div>
+            <div class="slider-row">
+                <label>B</label>
+                <input type="range" id="slider-b" min="0" max="255" value="0" />
+                <input type="number" id="num-b" min="0" max="255" value="0" class="num-input" />
+            </div>
+        </div>
+        <div class="color-bottom">
+            <div class="color-preview-wrap">
+                <div id="color-preview" class="color-preview"></div>
+            </div>
+            <div class="hex-wrap">
+                <span class="hex-hash">#</span>
+                <input type="text" id="hex-input" class="hex-input" maxlength="6" placeholder="000000" />
+            </div>
+            <button id="color-apply-btn" class="btn btn-primary" style="padding: 8px 16px; font-size: 0.85rem;">적용</button>
+        </div>
+    </div>
+
+    <!--폰트 추가 모달-->
+    <div id="font-modal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>폰트 추가</h3>
+                <button id="font-modal-close" class="btn btn-ghost" style="padding: 6px 12px;">✕</button>
+            </div>
+            
+            <!--탭-->
+            <div class="font-tabs">
+                <button class="font-tab active" data-tab="google">구글 폰트</button>
+                <button class="font-tab" data-tab="webfont">웹 폰트</button>
+            </div>
+
+            <!--구글 폰트-->
+            <div id="font-tab-google" class="modal-body">
+                <div class="form-group" style="margin-bottom: 14px;">
+                    <label>폰트 이름 (자유롭게 설정)</label>
+                    <input type="text" id="font-label-input" placeholder="폰트 이름" />
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>@import URL</label>
+                    <input type="text" id="font-url-input" />
+                </div>
+            </div>
+
+            <!--눈누 폰트-->
+            <div id="font-tab-webfont" class="modal-body" style="display: none;">
+                <div class="form-group" style="margin-bottom: 14px;">
+                    <label>폰트 이름(자유롭게 설정)</label>
+                    <input type="text" id="font-label-webfont" />
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>@font-face CSS 코드</label>
+                    <textarea id="font-face-input" class="font-face-textarea"></textarea>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="font-modal-cancel" class="btn btn-ghost">취소</button>
+                <button id="font-modal-confirm" class="btn btn-primary">추가</button>
+            </div>
+            
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
+    <script type="module" src="js/write.js"></script>
+</body>
+</html>

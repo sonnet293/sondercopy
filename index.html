@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>로그인</title>
+</head>
+<body>
+
+  <h2>로그인</h2>
+
+  <input type="email" id="email" placeholder="이메일">
+  <br><br>
+
+  <input type="password" id="password" placeholder="비밀번호">
+  <br><br>
+
+  <button id="loginBtn">로그인</button>
+
+  <p id="result"></p>
+  
+  <script type="module">
+    import { auth } from "./js/firebase.js";
+
+    import {
+      signInWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const result = document.getElementById("result");
+
+    document.getElementById("loginBtn").addEventListener("click", async () => {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      try {
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+
+        result.textContent = "로그인 성공";
+        console.log("UID:", userCredential.user.uid);
+        location.href = "character.html"
+
+      } catch (error) {
+        result.textContent = "로그인 실패";
+        console.error(error);
+      }
+    });
+  </script>
+
+</body>
+</html>

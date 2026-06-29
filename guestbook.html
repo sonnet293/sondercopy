@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/guestbook.css">
+    <title>방명록</title>
+</head>
+<body>
+
+    <!--깃발 / 로고-->
+    <div class="top-area">
+        <a href="index.html" class="main-flag">
+            <img src="img/Flag.png" alt="메인 깃발" />
+        </a>
+        <div class="site-logo">
+            <img src="img/Guest Book Logo.png" alt="방명록 로고" />
+        </div>
+    </div>
+
+    <header class="site-header">
+        <div id="marquee-board" data-page-id="guestbook">방명록 전광판</div>
+        <nav>
+            <div class="nav-btn">
+                <a href="guestbook.html">방명록</a>
+            </div>
+            <div class="nav-btn">
+                <a href="character.html">캐릭터</a>
+            </div>
+            <div class="nav-btn">
+                <a href="backup.html">백업</a>
+            </div>
+        </nav>
+    </header>
+
+    <!--메인 영역-->
+    <main class="main-wrap">
+
+        <!--메시지 입력-->
+        <div class="gb-input-area">
+            <input type="text" id="name-input" class="gb-input gb-input--name" placeholder="Name" maxlength="20" />
+            <input type="text" id="message-input" class="gb-input gb-input--message" placeholder="message" maxlength="300" />
+            <div class="send-button">
+                <button id="send-btn" class="btn btn-send">
+                    <span class="btn__label">SEND</span>
+                </button>
+            </div>
+        </div>
+
+        <!--방명록 섹션-->
+        <div id="chat-container">
+            <div id="message-list" class="gb-chat__inner"></div>
+            <div id="empty-state" class="empty-state" style="display: none;">
+                <p>아직 방명록이 없습니다</p>
+            </div>
+        </div>
+
+    </main>
+
+    <div id="toast" class="toast"></div>
+
+    
+
+
+    <script type="module" src="js/guestbook.js"></script>
+</body>
+</html>
