@@ -362,6 +362,17 @@ function applyCustomFont(fontData) {
 
   injectFontCSS(fontData);
 
+  // Quill 1.x Toolbar.update()는 formats["font"] 값에 맞는 <option>을 숨겨진 <select>에서 찾아
+  // select.value를 갱신하고 Picker.update()가 그 selectedIndex로 라벨 data-label을 세팅함.
+  // <option>이 없으면 select.value = '' → Picker가 index 0(기본)을 선택 → 항상 "기본"으로 표시됨.
+  const fontSelect = document.querySelector("select.ql-font");
+  if (fontSelect && !fontSelect.querySelector(`option[value="${cssName}"]`)) {
+    const opt = document.createElement("option");
+    opt.value = cssName;
+    opt.textContent = label;
+    fontSelect.appendChild(opt);
+  }
+
   const fontFormat = Quill.import("formats/font");
   if (!fontFormat.whitelist.includes(cssName)) {
     fontFormat.whitelist.push(cssName);
@@ -370,7 +381,7 @@ function applyCustomFont(fontData) {
 
   // Quill Picker는 각 item에 개별 click 핸들러를 붙임 (이벤트 위임 아님)
   // 동적으로 추가할 때도 동일하게 핸들러를 직접 붙여야 선택이 동작함
-  const fontPicker = document.querySelector(".ql-font");
+  const fontPicker = document.querySelector(".ql-picker.ql-font");
   const pickerOptions = fontPicker?.querySelector(".ql-picker-options");
   if (pickerOptions && !pickerOptions.querySelector(`[data-value="${cssName}"]`)) {
     const item = document.createElement("span");
@@ -383,16 +394,12 @@ function applyCustomFont(fontData) {
     item.addEventListener("mousedown", (e) => e.preventDefault());
     item.addEventListener("click", () => {
       quill.format("font", cssName);
-
-      // 피커 라벨 data-value 갱신 (Quill이 현재 선택 폰트 표시에 사용)
-      const pickerLabel = fontPicker.querySelector(".ql-picker-label");
-      if (pickerLabel) pickerLabel.dataset.value = cssName;
-
-      // 선택 표시 갱신
+      // Quill 내장 picker의 selectItem()은 클릭 시 data-label을 라벨에 직접 세팅함.
+      // 커스텀 아이템은 selectItem()을 거치지 않으므로 동일하게 직접 처리.
       pickerOptions.querySelectorAll(".ql-picker-item").forEach(i => i.classList.remove("ql-selected"));
       item.classList.add("ql-selected");
-
-      // 피커 닫기
+      const pickerLabel = fontPicker.querySelector(".ql-picker-label");
+      if (pickerLabel) pickerLabel.setAttribute("data-label", label);
       fontPicker.classList.remove("ql-expanded");
     });
 
