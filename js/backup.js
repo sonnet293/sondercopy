@@ -247,7 +247,10 @@ function showToast(msg, isError=false) {
 // ─────────────────────────────────────────────
 // 시작 — auth 상태 확인 후 role 결정, 그 다음 글 로드
 // ─────────────────────────────────────────────
+const writeFab = document.getElementById("write-fab");
+
 onAuthStateChanged(auth, async (user) => {
   userRole = await getUserRole(user);
+  if (userRole === "owner") writeFab.style.display = "flex";
   loadPosts();
 });

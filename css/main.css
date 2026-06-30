@@ -172,14 +172,99 @@ body {
 .bottom-right {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: flex-start;
     height: 100%;
 }
 
 .bottom-right img {
     width: 92%;
     height: auto;
+    margin-top: auto;
     margin-bottom: 22px;
     object-fit: contain;
     display: block;
+}
+
+/* 최근 백업 위젯 */
+.recent-posts-widget {
+    width: 88%;
+    margin-top: 16px;
+    background: rgba(30, 30, 30, 0.82);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 12px 14px;
+    backdrop-filter: blur(6px);
+}
+
+.rp-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.rp-title {
+    font-family: var(--font-custom);
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+}
+
+.rp-more {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    color: var(--text-light);
+    text-decoration: none;
+    transition: color var(--transition);
+}
+
+.rp-more:hover {
+    color: var(--text-muted);
+}
+
+.rp-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.rp-item a {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    color: var(--text-wg);
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 5px 8px;
+    border-radius: var(--radius);
+    transition: background var(--transition), color var(--transition);
+}
+
+.rp-item a:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--white);
+}
+
+.rp-skeleton {
+    height: 28px;
+    border-radius: var(--radius);
+    background: linear-gradient(90deg, #2a2a2a 25%, #333 50%, #2a2a2a 75%);
+    background-size: 200% 100%;
+    animation: rp-shimmer 1.4s infinite;
+}
+
+@keyframes rp-shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.rp-empty {
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    color: var(--text-light);
+    text-align: center;
+    padding: 8px 0;
 }
