@@ -424,6 +424,20 @@ function extractFontFamily(css) {
   return match ? match[1].trim() : null;
 }
 
+// Google Fonts URL(또는 @import 구문)에서 font-family 이름 추출
+// 예: https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400 → "Noto Sans KR"
+// 예: @import url('https://...?family=Noto+Sans+KR') → "Noto Sans KR"
+function extractFontFamilyFromUrl(input) {
+  const urlMatch = input.match(/https?:\/\/[^\s'")\n]+/);
+  if (!urlMatch) return null;
+  try {
+    const u = new URL(urlMatch[0]);
+    const family = u.searchParams.get("family");
+    if (family) return family.split(":")[0].split(",")[0].replace(/\+/g, " ").trim();
+  } catch {}
+  return null;
+}
+
   
 
 // ── 탭 전환 ──
@@ -470,7 +484,8 @@ fontModalConfirm.addEventListener("click", async () => {
       if (!label) return showToast("폰트 이름을 입력해주세요.", true);
       if (!url)   return showToast("Google Fonts URL을 입력해주세요.", true);
       const cssName = makeCssName(label);
-      const fontData = { type: "google", label, cssName, url };
+      const fontFamily = extractFontFamilyFromUrl(url) || label;
+      const fontData = { type: "google", label, cssName, fontFamily, url };
       applyCustomFont(fontData);
       await saveFont(fontData);
       fontModal.classList.remove("active");
