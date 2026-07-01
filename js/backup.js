@@ -199,8 +199,9 @@ secretModalConfirm.addEventListener("click", () => {
   if (!pendingPost) return;
   const input = secretPwInput.value;
   if (input === pendingPost.secretPassword) {
+    const post = pendingPost;
     closeSecretModal();
-    openPostModal(pendingPost);
+    openPostModal(post);
   } else {
     modalPwError.textContent = "비밀번호가 올바르지 않아요.";
     secretPwInput.value = "";
