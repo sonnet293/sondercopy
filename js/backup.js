@@ -71,13 +71,17 @@ async function getUserRole(user) {
 
 // 공개 범위 필터 (새 visibility 필드 + 구형 isSecret 필드 호환)
 function canViewPost(post) {
-  // 구형 포맷 (isSecret 필드만 있는 경우) → 카드는 모두에게 표시, 클릭 시 비밀번호 요구
+  // 구형 포맷 (visibility 없음) → 카드는 모두에게 표시
   if (post.visibility === undefined) return true;
 
   switch (post.visibility) {
     case "public":  return true;
     case "friend":  return userRole === "friend" || userRole === "owner";
-    case "secret":  return userRole === "owner";
+    case "secret":
+      // 비밀번호가 있으면 누구나 카드 표시 (클릭 시 비밀번호 요구)
+      if (post.secretPassword) return true;
+      // 비밀번호 없으면 주인만
+      return userRole === "owner";
     default:        return true;
   }
 }
@@ -157,8 +161,8 @@ function renderCards(posts) {
 // 카드 클릭
 // ─────────────────────────────────────────────
 function handleCardClick(post) {
-  // 구형 포맷: isSecret + secretPassword → 비밀번호 모달
-  if (post.isSecret && post.secretPassword && post.visibility === undefined) {
+  // 비밀번호가 있고 주인이 아닌 경우 → 비밀번호 모달
+  if (post.secretPassword && userRole !== "owner") {
     openSecretModal(post);
   } else {
     openPostModal(post);

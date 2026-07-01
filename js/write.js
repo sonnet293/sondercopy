@@ -113,6 +113,18 @@ thumbnailRemove.addEventListener("click", (e) => {
   thumbnailRemove.style.display = "none";
 });
 
+// 비밀글 선택 시 비밀번호 인풋 표시
+const secretPwWrap = document.getElementById("secret-pw-wrap");
+const secretPassword = document.getElementById("secret-password");
+
+document.querySelectorAll('input[name="visibility"]').forEach(radio => {
+  radio.addEventListener("change", () => {
+    const isSecret = radio.value === "secret";
+    secretPwWrap.style.display = isSecret ? "block" : "none";
+    if (!isSecret) secretPassword.value = "";
+  });
+});
+
 // 게시하기
 document.getElementById("reset-btn").addEventListener("click", () => {
   document.getElementById("post-title").value = "";
@@ -124,6 +136,8 @@ document.getElementById("reset-btn").addEventListener("click", () => {
   thumbnailPlaceholder.style.display = "flex";
   thumbnailRemove.style.display = "none";
   document.querySelector('input[name="visibility"][value="public"]').checked = true;
+  secretPwWrap.style.display = "none";
+  secretPassword.value = "";
 });
 
 document.getElementById("submit-btn").addEventListener("click", async () => {
@@ -143,11 +157,14 @@ document.getElementById("submit-btn").addEventListener("click", async () => {
       thumbnailUrl = await uploadImage(thumbnailBlob, "thumbnail.jpg");
     }
 
+    const pw = visibility === "secret" ? (secretPassword.value.trim() || null) : null;
+
     await addDoc(collection(db, "posts"), {
       title,
       content: JSON.stringify(quill.getContents()),
       contentHtml: quill.root.innerHTML,
       visibility,
+      ...(pw ? { secretPassword: pw } : {}),
       thumbnailUrl,
       createdAt: serverTimestamp(),
       uid: currentUser.uid,
